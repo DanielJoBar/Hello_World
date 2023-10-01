@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="tarjetas">
+    <app-user-info *ngFor="let user of users$ | async" [user]="user" (onFavClicked)="onFavClicked(user,$event)"></app-user-info>
+  </div>
+  <div class="container">
+    <ion-button routerLink='/welcome'>Welcome</ion-button>
+  </div>
+</ion-content>

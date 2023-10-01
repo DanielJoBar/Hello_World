@@ -1,0 +1,21 @@
+ion-card{
+  position:relative;
+  width: 30vw;
+  background-color: #1e1e1e;
+  
+}
+
+.avatar{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.subtitle{color: #5e66f5;
+font-size: 150%;
+}
+
+.heart{
+  position:absolute;
+  right: 25px;
+  top:25px;
+}
