@@ -7,11 +7,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+<!--ion popover es  (investigar)-->
   <div class="tarjetas">
-    <app-user-info *ngFor="let user of users$ | async" [user]="user" (onFavClicked)="onFavClicked(user,$event)"></app-user-info>
+    <app-user-info *ngFor="let user of users.users$ | async" [user]="user" (onFavClicked)="onFavClicked(user,$event)" (onDelClicked)="onDelClicked(user)"></app-user-info>
   </div>
   <div class="container">
     <ion-button routerLink='/welcome'>Welcome</ion-button>
   </div>
+  <ion-loading [isOpen]="loading" class="loading">Loading...</ion-loading>
 </ion-content>

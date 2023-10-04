@@ -4,6 +4,7 @@ import { User } from './user';
 import { Router } from '@angular/router';
 import { ToastController, ToastOptions  } from '@ionic/angular';
 import { UserInfoFavClicked } from './user-info/user-info-fav-clicked';
+import { UserServiceService } from '../user-service.service';
 
 @Component({
   selector: 'app-home',
@@ -12,68 +13,66 @@ import { UserInfoFavClicked } from './user-info/user-info-fav-clicked';
 })
 
 export class HomePage implements OnInit {
-	private _users:BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-	users$:Observable<User[]> = this._users.asObservable();
-
+	public loading:boolean = false;
   constructor(
 	private router:Router,
-	private toast:ToastController
+	private toast:ToastController,
+	public users:UserServiceService,
 	) {}
-
+	//El on init es una parte del ciclo de vida de la pagina (ng representa a angular y OnInit() la fase del ciclo de vida)
+	ngOnInit(): void {
+		 this.loading = true
+		 setTimeout(() =>{
+		this.users.getAll().subscribe(_users=>{
+			this.loading = false;
+		})	
+		},2000)
+	}
+	//Funcion del boton de favoritos, emisor del mensaje(toast)
 	public onFavClicked(user:User, event:UserInfoFavClicked){
-		//recibimos en user el usuario asociado a la tarjeta
-		//recibimos en event un objeto del tipo UserInfoFavClicked que tiene una propiedad fav que indica si hay que añadir o eliminar de la lista de favoritos
-		//creamos una copia del array actual de usuarios
-		const users = [...this._users.value];
-		//buscamos el índice del usuario para modificar su propiedad fav
-		var index = users.findIndex((_user)=>_user.id == user.id);
-		if(index!=-1)
-		  //actualizamos la propiedad fav con el valor que hemos recibido por el evento
-		  users[index].fav = event.fav??false; //en el caso de que fav sea undefined devolvemos falso.
-		//notificamos un nuevo array de usuarios para que se renderice en la plantilla
-		this._users.next([...users]);
-		//Notificamos con un Toast que se ha pulsado
-		const options:ToastOptions = {
-		  message:`User ${users[index].name} ${users[index].surname} ${event.fav?'added':'removed'} ${event.fav?'to':'from'} favourites`, //mensaje del toast
-		  duration:1000, // 1 segundo
-		  position:'bottom', // el toast se situa en la parte inferior
-		  color:'danger', // color del toast
-		  cssClass:'fav-ion-toast' //Una clase que podemos poner en global.scss para configurar el ion-toast
-		};
-	 
-	 
-		//creamos el toast y lo presentamos (es una promesa por eso el then)
-		this.toast.create(options).then(toast=>toast.present());
-	  }
-	 
+		//Guardamos en una variable el usuario que recibe
+		var _user:User = {...user};
+		//Aqui lo que hacemos es que el fav del user se a igual al fav del event
+		_user.fav= event.fav??false;//Si fav es undefined se pone a falso por defecto 
+		this.users.updateUser(_user).subscribe(
+			{next:user=>{
+				const options:ToastOptions = {
+					message:`User ${user.name} ${user.surname} ${event.fav?'added':'removed'} ${event.fav?'to':'from'} favourites`, //mensaje del toast
+					duration:1000, // 1 segundo
+					position:'bottom', // el toast se situa en la parte inferior
+					color:`${event.fav? 'success':'danger'}`, // color del toast
+					cssClass:'fav-ion-toast' //Una clase que podemos poner en global.scss para configurar el ion-toast
+				  };
+				  this.toast.create(options).then(toast=>toast.present());
+				},
+				error: err=>{
+					console.log(err);
+				}
+			}
+		);
+	}
 
-	valorEnFuturo(): Observable<number> {
-	  return new Observable<number>((observer) => {
-	    setTimeout(() => {
-	      const randomValue = Math.random() * 100;
-	      observer.next(randomValue);
-	      observer.complete();
-	    }, 1000);
-	  });
+	//Funcion del cubo de basura, borrador de tarjetas 
+	public onDelClicked(user:User){
+		var _user:User ={...user};//Guardamos el usuario en una variable local
+		//Cogemos nuestra lista y borramos al usuario
+		this.users.deleteUser(_user).subscribe(
+			{next:user=>{
+				//Configuramos el toast
+				const options:ToastOptions = {
+					message:`User ${user.name} ${user.surname} was deleted successfully`, //mensaje del toast
+					duration:1000, // 1 segundo
+					position:'bottom', // el toast se situa en la parte inferior
+					color:'danger', // color del toast
+					cssClass:'fav-ion-toast' //Una clase que podemos poner en global.scss para configurar el ion-toast
+				  };
+				  this.toast.create(options).then(toast=>toast.present());
+			},
+			error: err=>{
+				console.log(err)
+			}
+		});
 	}
 	
-	ngOnInit(): void {
-		let index =0;
-		var users:User[] = [
-			{ id:1,name: 'Rosa', surname: 'Berlin', age: 43,fav:true},
-			{ id:2,name: 'Laura', surname: 'Rama', age: 19,fav:false},
-			{ id:3,name: 'David', surname: 'Corcho', age: 23,fav:true},
-			{ id:4,name: 'Rubén', surname: 'Maldonado', age: 29,fav:false},
-			{ id:5,name: 'Luna', surname: 'García', age: 35,fav:true},
-		  ];
-		  this._users.next(users)
-		  /* setInterval(() => {
-	    if (index < 5) {
-	      var users:User[] = this._users.value;
-	      users.push(users[index]); 
-	      this._users.next(users);
-	      index++; 
-	    }
-	  }, 1000); */
-	}
+	
 }

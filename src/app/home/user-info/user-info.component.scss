@@ -7,8 +7,9 @@ ion-card{
 
 .avatar{
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 20px;
+  min-width: 50px;
 }
 .subtitle{color: #5e66f5;
 font-size: 150%;
@@ -16,6 +17,11 @@ font-size: 150%;
 
 .heart{
   position:absolute;
-  right: 25px;
+  right: 20px;
   top:25px;
+}
+.Can{
+  position: absolute;
+  top:80px;
+  right:20px;
 }
