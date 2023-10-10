@@ -1,18 +1,21 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Home
-    </ion-title>
+    <ion-title> Home </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-<!--ion popover es  (investigar)-->
+  <!--ion popover es  (investigar)-->
   <div class="tarjetas">
-    <app-user-info *ngFor="let user of users.users$ | async" [user]="user" (onFavClicked)="onFavClicked(user,$event)" (onDelClicked)="onDelClicked(user)"></app-user-info>
+    <app-user-info appHighlight
+      *ngFor="let user of (userService.users$ | async)"
+      [user]="user"
+      (onFavClicked)="onFavClicked(user,$event)"
+      (onDelClicked)="onDelClicked(user)"
+    ></app-user-info>
   </div>
   <div class="container">
-    <ion-button routerLink='/welcome'>Welcome</ion-button>
+    <ion-button routerLink="/welcome">Welcome</ion-button>
   </div>
   <ion-loading [isOpen]="loading" class="loading">Loading...</ion-loading>
 </ion-content>

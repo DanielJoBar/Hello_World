@@ -2,33 +2,67 @@
   <ion-card-header>
     <div class="avatar">
       <ion-avatar>
-        <ion-img src="https://cdn-icons-png.flaticon.com/128/149/149071.png"></ion-img>
+        <ion-img
+          src="https://cdn-icons-png.flaticon.com/128/149/149071.png"
+        ></ion-img>
       </ion-avatar>
       <ion-button [routerLink]="['/welcome']" fill="clear">
-        <ion-card-title>{{user?.name}} {{user?.surname|primeraLetraMayuscula}}</ion-card-title>
+        <ion-card-title
+          >{{ user?.name }}
+          {{ user?.surname | primeraLetraMayuscula }}</ion-card-title
+        >
       </ion-button>
       <!-- Esto es el boton del corazon, clear se usa para quitarle el relleno,
          icon-only es para que no tenga texto ni nada que no sea el boton dentro
       -->
-      <ion-button class="fav-button" fill="clear" aria-label="Favorite" (click)="onFavClick($event)" class="heart">
-        <ion-icon *ngIf="user?.fav" slot="icon-only" size="large" color="danger" name="heart"
-          aria-hidden="true"></ion-icon>
-        <ion-icon *ngIf="!user?.fav" slot="icon-only" color="medium" size="large" name="heart-outline"
-          aria-hidden="true">
+      <ion-button
+        class="fav-button"
+        fill="clear"
+        aria-label="Favorite"
+        (click)="onFavClick($event)"
+        class="heart"
+      >
+        <ion-icon
+          *ngIf="user?.fav"
+          slot="icon-only"
+          size="large"
+          color="danger"
+          name="heart"
+          aria-hidden="true"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="!user?.fav"
+          slot="icon-only"
+          color="medium"
+          size="large"
+          name="heart-outline"
+          aria-hidden="true"
+        >
         </ion-icon>
       </ion-button>
       <!--Boton del cubo de basura-->
-      <ion-button class="Can" aria-label="Delete"  fill="clear" (click)="onDelClick($event)">
-        <ion-icon slot="icon-only" color="#A6ACAF" size="large" name="trash-outline"></ion-icon>
+      <ion-button
+        class="Can"
+        aria-label="Delete"
+        fill="clear"
+        (click)="onDelClick($event)"
+      >
+        <ion-icon
+          slot="icon-only"
+          color="#A6ACAF"
+          size="large"
+          name="trash-outline"
+        ></ion-icon>
       </ion-button>
     </div>
   </ion-card-header>
+
   <ion-card-content>
     <ion-card-subtitle class="subtitle">Nombre</ion-card-subtitle>
-    <ion-card-subtitle>{{user?.name}}</ion-card-subtitle>
+    <ion-card-subtitle>{{ user?.name }}</ion-card-subtitle>
     <ion-card-subtitle class="subtitle">Apellidos</ion-card-subtitle>
-    <ion-card-subtitle>{{user?.surname}}</ion-card-subtitle>
+    <ion-card-subtitle>{{ user?.surname }}</ion-card-subtitle>
     <ion-card-subtitle class="subtitle">Edad</ion-card-subtitle>
-    <ion-card-subtitle>{{user?.age}} años</ion-card-subtitle>
+    <ion-card-subtitle>{{ user?.age }} años</ion-card-subtitle>
   </ion-card-content>
 </ion-card>
