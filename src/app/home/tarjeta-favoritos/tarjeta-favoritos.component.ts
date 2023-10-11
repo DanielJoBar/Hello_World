@@ -9,15 +9,8 @@ import { UserInfoFavClicked } from '../user-info/user-info-fav-clicked';
 export class TarjetaFavoritosComponent  implements OnInit {
   @Input()  id?:number|null ;
   @Output() onMinFavCardDelClicked: EventEmitter<void> = new EventEmitter<void>();
-  @Output() onMinFavCardClicked: EventEmitter<UserInfoFavClicked> = new EventEmitter<UserInfoFavClicked>();
   constructor() {}
   ngOnInit() {}
-  onMinFavCardClick(event:any){
-    //this.onMinFavCardClicked.emit({
-    //  fav: !(this.user?.fav ?? false), 
-   // });
-    event.stopPropagation();
-  }
   onMinFavCardDelClick(event:any){
     this.onMinFavCardDelClicked.emit();
     event.stopPropagation();

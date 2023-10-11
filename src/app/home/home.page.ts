@@ -12,7 +12,8 @@ import { FavoritosService } from './favoritos.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-
+//Hay que hacer un userformComponent que sera un modal 
+//Repasar el componentProps para el userformComponent
 export class HomePage implements OnInit {
 	public loading:boolean = false;
   constructor(
@@ -22,11 +23,12 @@ export class HomePage implements OnInit {
 	public favService:FavoritosService
 	) {}
 	//El on init es una parte del ciclo de vida de la pagina (ng representa a angular y OnInit() la fase del ciclo de vida)
+	
 	ngOnInit(): void {
 		 this.loading = true
 			zip([this.favService.getAllFav()],[this.userService.getAll()]).subscribe(()=>{
-			this.loading=false
-			this.userService.getAll().subscribe()
+				this.loading=false
+			this.userService.getAll().subscribe();
 			//this.favService.getAllFav().subscribe()
 			//Ahora tendria que Crear las tarjetas y llamarlas aqui con una funcion
 			})

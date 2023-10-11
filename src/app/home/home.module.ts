@@ -5,8 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { HomePageRoutingModule } from './home-routing.module';
-import { PrimeraLetraMayusculaPipe } from '../primera-letra-mayuscula.pipe';
+import { PrimeraLetraMayusculaPipe } from './Pipes/primera-letra-mayuscula.pipe';
 import { HighlightDirective } from '../Directive/highlight.directive';
+import { FavPipe } from './Pipes/fav.pipe';
+import { TarjetaFavoritosComponent } from './tarjeta-favoritos/tarjeta-favoritos.component';
 
 @NgModule({
   imports: [
@@ -15,6 +17,6 @@ import { HighlightDirective } from '../Directive/highlight.directive';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage,UserInfoComponent,PrimeraLetraMayusculaPipe,HighlightDirective] //Declaramos el UserInfoComponent (Los componentes que vamos a utilizar)
+  declarations: [HomePage,UserInfoComponent,PrimeraLetraMayusculaPipe,HighlightDirective, FavPipe,TarjetaFavoritosComponent] //Declaramos el UserInfoComponent (Los componentes que vamos a utilizar)
 })
 export class HomePageModule {}
